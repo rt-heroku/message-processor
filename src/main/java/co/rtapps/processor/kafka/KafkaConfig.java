@@ -33,9 +33,6 @@ public class KafkaConfig {
 		this.clientKey = clientKey;
 		this.prefix = prefix;
 		
-		System.out.println("Group: " + group);
-		System.out.println("Prefix: " + prefix);
-
 		if (prefix != null)
 			this.group = prefix + "." + group;
 		else
@@ -47,6 +44,9 @@ public class KafkaConfig {
 		List<String> hostPorts = new ArrayList<>();
 
 		buildDefaults(properties, hostPorts);
+
+		System.out.println("buildConsumerDefaults -> Group: " + group);
+		System.out.println("buildConsumerDefaults -> Prefix: " + prefix);
 
 		properties.put(CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG,
 				hostPorts.stream().collect(Collectors.joining(",")));
