@@ -52,7 +52,10 @@ public class KafkaConfig {
 				hostPorts.stream().collect(Collectors.joining(",")));
 		properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 		properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-		properties.put(ConsumerConfig.GROUP_ID_CONFIG, getGroup());
+		
+		if (!this.group.equals(""))
+			properties.put(ConsumerConfig.GROUP_ID_CONFIG, getGroup());
+		
 		properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
 		properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
