@@ -1,5 +1,7 @@
 package co.rtapps.processor.kafka;
 
+import static java.lang.System.getenv;
+
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -19,24 +21,15 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import com.github.jkutner.EnvKeyStore;
 
 public class KafkaConfig {
-	private final String kafkaUrl;
-	private final String clientCert;
-	private final String trustedCert;
-	private final String clientKey;
 	private final String group;
 	private final String prefix;
 
-	public KafkaConfig(String kafkaUrl, String trustedCert, String clientCert, String clientKey, String group, String prefix) {
-		this.kafkaUrl = kafkaUrl;
-		this.trustedCert = trustedCert;
-		this.clientCert = clientCert;
-		this.clientKey = clientKey;
-		this.prefix = prefix;
-		
+	public KafkaConfig() {
+		this.prefix = getenv("KAFKA_PREFIX");
 		if (prefix != null)
-			this.group = prefix + "." + group;
+			this.group = prefix + "." + getenv("KAFKA_GROUP");
 		else
-			this.group = group;
+			this.group = getenv("KAFKA_GROUP");
 	}
 
 	public Map<String, Object> buildConsumerDefaults() {
@@ -45,14 +38,17 @@ public class KafkaConfig {
 
 		buildDefaults(properties, hostPorts);
 
-		System.out.println("buildConsumerDefaults -> Group: " + group);
+		System.out.println("buildConsumerDefaults -> Group: " + getGroup());
 		System.out.println("buildConsumerDefaults -> Prefix: " + prefix);
 
+
+		
+		
 		properties.put(CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG,
 				hostPorts.stream().collect(Collectors.joining(",")));
 		properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 		properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-		properties.put(ConsumerConfig.GROUP_ID_CONFIG, group);
+		properties.put(ConsumerConfig.GROUP_ID_CONFIG, getGroup());
 		properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
 		properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
@@ -74,6 +70,8 @@ public class KafkaConfig {
 	}
 
 	private void buildDefaults(Map<String, Object> properties, List<String> hostPorts) {
+		String kafkaUrl = checkNotNull(getenv("KAFKA_URL"));
+				
 		for (String url : kafkaUrl.split(",")) {
 			try {
 				URI uri = new URI(url);
@@ -87,8 +85,8 @@ public class KafkaConfig {
 					properties.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SSL");
 
 					try {
-						EnvKeyStore envTrustStore = EnvKeyStore.createWithRandomPassword(trustedCert);
-						EnvKeyStore envKeyStore = EnvKeyStore.createWithRandomPassword(clientKey, clientCert);
+						EnvKeyStore envTrustStore = EnvKeyStore.createWithRandomPassword("KAFKA_TRUSTED_CERT");
+						EnvKeyStore envKeyStore = EnvKeyStore.createWithRandomPassword("KAFKA_CLIENT_CERT_KEY", "KAFKA_CLIENT_CERT");
 
 						File trustStore = envTrustStore.storeTemp();
 						File keyStore = envKeyStore.storeTemp();
@@ -112,8 +110,16 @@ public class KafkaConfig {
 		}
 	}
 
+	private String checkNotNull(String val) {
+		return "" + val;
+	}
+
 	public String getPrefix() {
 		return prefix;
+	}
+
+	public String getGroup() {
+		return group;
 	}
 
 }
