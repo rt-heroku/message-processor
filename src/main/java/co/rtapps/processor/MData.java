@@ -12,9 +12,25 @@ public class MData {
     private String database;
     private String table;
     private String type;
+    private String serverId;
     private long ts;
     private int xid;
     private boolean commit;
     private Map<String, Object> data;
 
+    @Override
+    public String toString() {
+    	StringBuilder sb = new StringBuilder();
+    	
+    	sb.append("database:").append(database)
+    	.append(", table:").append(table)
+    	.append(", type:").append(type)
+    	.append(", serverId:").append(serverId)
+    	.append(", ts:").append(ts)
+    	.append(", xid:").append(xid)
+    	.append(", commit:").append(commit);
+    	
+    	return sb.toString();
+    }
+    
 }
