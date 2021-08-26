@@ -22,7 +22,7 @@ public class KafkaConsumerConfig {
     @Value("${kafka.url:environment.KAFKA_URL}")
     private String kafkaUrl;
 
-    @Value("${kafka.group}")
+    @Value("${kafka.group:environment.KAFKA_GROUP}")
     private String kafkaGroup;
 
     public ConsumerFactory<String, String> consumerFactory() {
