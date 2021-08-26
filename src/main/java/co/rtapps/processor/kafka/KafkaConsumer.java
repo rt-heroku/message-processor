@@ -12,7 +12,7 @@ import java.util.List;
 @Slf4j
 public class KafkaConsumer {
 
-    public static final String TOPIC = "test-topic";
+    public static final String TOPIC = "tombigbee-4880.101";
 
     public final List<String> messages = new ArrayList<>();
 
