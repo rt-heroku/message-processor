@@ -10,16 +10,16 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 @EnableKafka
 @Configuration
 public class KafkaConsumerConfig {
-    @Value("${kafka.trustedCert}")
+    @Value("${kafka.trustedCert:environment.KAFKA_TRUSTED_CERT}")
     private String trustedCert;
 
-    @Value("${kafka.clientCert}")
+    @Value("${kafka.clientCert:environment.KAFKA_CLIENT_CERT}")
     private String clientCert;
 
-    @Value("${kafka.clientKey}")
+    @Value("${kafka.clientKey:environment.KAFKA_CLIENT_CERT_KEY}")
     private String clientKey;
 
-    @Value("${kafka.url}")
+    @Value("${kafka.url:environment.KAFKA_URL}")
     private String kafkaUrl;
 
     @Value("${kafka.group}")
