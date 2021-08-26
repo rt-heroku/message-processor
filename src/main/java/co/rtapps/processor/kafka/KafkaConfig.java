@@ -28,11 +28,12 @@ public class KafkaConfig {
 	private final String prefix;
 
 	public KafkaConfig() {
-		this.prefix = getenv("KAFKA_PREFIX");
-		if (prefix != null)
-			this.group = prefix + "." + getenv("KAFKA_GROUP");
+		this.prefix = checkNotNull(getenv("KAFKA_PREFIX"));
+		
+		if (checkNotNull(getenv("KAFKA_GROUP")).equals(""))
+			this.group = "";
 		else
-			this.group = getenv("KAFKA_GROUP");
+			this.group = prefix + getenv("KAFKA_GROUP");
 	}
 
 	public Map<String, Object> buildConsumerDefaults() {
@@ -119,7 +120,10 @@ public class KafkaConfig {
 	}
 
 	private String checkNotNull(String val) {
-		return "" + val;
+		if (val == null)
+			return "";
+		
+		return val;
 	}
 
 	public String getPrefix() {
