@@ -20,6 +20,9 @@ import org.apache.kafka.common.serialization.StringSerializer;
 
 import com.github.jkutner.EnvKeyStore;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class KafkaConfig {
 	private final String group;
 	private final String prefix;
@@ -83,7 +86,7 @@ public class KafkaConfig {
 					break;
 				case "kafka+ssl":
 					properties.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SSL");
-
+					properties.put("ssl.endpoint.identification.algorithm", "");
 					try {
 						EnvKeyStore envTrustStore = EnvKeyStore.createWithRandomPassword("KAFKA_TRUSTED_CERT");
 						EnvKeyStore envKeyStore = EnvKeyStore.createWithRandomPassword("KAFKA_CLIENT_CERT_KEY", "KAFKA_CLIENT_CERT");
@@ -108,6 +111,11 @@ public class KafkaConfig {
 				throw new RuntimeException(e);
 			}
 		}
+		
+		for (String h: hostPorts) 
+			log.info("Server added: " + h);
+		
+		
 	}
 
 	private String checkNotNull(String val) {
