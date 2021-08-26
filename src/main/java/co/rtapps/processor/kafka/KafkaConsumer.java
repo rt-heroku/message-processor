@@ -20,7 +20,7 @@ public class KafkaConsumer {
 
     @KafkaListener(topics = TOPIC)
     public void receive(ConsumerRecord<String, String> consumerRecord) {
-        log.info("Received payload: '{}'", consumerRecord.toString());
+       // log.info("Received payload: '{}'", consumerRecord.toString());
         messages.add(consumerRecord.value());
         
         if (messages.size() % 100 == 0)
