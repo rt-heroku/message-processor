@@ -16,20 +16,34 @@ import co.rtapps.processor.MData;
 public class KafkaConsumerConfig {
 
     @Bean
-    public ConsumerFactory<String, MData> consumerFactory() {
+    public ConsumerFactory<String, String> consumerFactory() {
         return new DefaultKafkaConsumerFactory<>(
-        		new KafkaConfig().buildConsumerDefaults(), 
-        		new StringDeserializer(), 
-        		new JsonDeserializer<>(MData.class)
-        	);
+        		new KafkaConfig().buildConsumerDefaults()
+        		);
     }
+//    @Bean
+//    public ConsumerFactory<String, MData> consumerFactory() {
+//    	return new DefaultKafkaConsumerFactory<>(
+//    			new KafkaConfig().buildConsumerDefaults(), 
+//    			new StringDeserializer(), 
+//    			new JsonDeserializer<>(MData.class)
+//    			);
+//    }
+
+//    @Bean
+//    public ConcurrentKafkaListenerContainerFactory<String, MData> kafkaListenerContainerFactory() {
+//        ConcurrentKafkaListenerContainerFactory<String, MData> factory = new ConcurrentKafkaListenerContainerFactory<>();
+//        factory.setConsumerFactory(consumerFactory());
+//
+//        return factory;
+//    }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, MData> kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, MData> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerFactory());
-
-        return factory;
+    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
+    	ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    	factory.setConsumerFactory(consumerFactory());
+    	
+    	return factory;
     }
 
 }
