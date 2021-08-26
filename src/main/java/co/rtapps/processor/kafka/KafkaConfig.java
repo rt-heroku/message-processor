@@ -32,6 +32,10 @@ public class KafkaConfig {
 		this.clientCert = clientCert;
 		this.clientKey = clientKey;
 		this.prefix = prefix;
+		
+		System.out.println("Group: " + group);
+		System.out.println("Prefix: " + prefix);
+
 		if (prefix != null)
 			this.group = prefix + "." + group;
 		else
