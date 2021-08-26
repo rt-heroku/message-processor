@@ -22,11 +22,14 @@ public class KafkaConsumerConfig {
     @Value("${kafka.url:environment.KAFKA_URL}")
     private String kafkaUrl;
 
-    @Value("${kafka.group:environment.KAFKA_GROUP}")
+    @Value("${kafka.group:group}")
     private String kafkaGroup;
 
+    @Value("${kafka.prefix:environment.KAFKA_PREFIX}")
+    private String kafkaPrefix;
+
     public ConsumerFactory<String, String> consumerFactory() {
-        return new DefaultKafkaConsumerFactory<>(new KafkaConfig(kafkaUrl, trustedCert, clientCert, clientKey, kafkaGroup).buildConsumerDefaults());
+        return new DefaultKafkaConsumerFactory<>(new KafkaConfig(kafkaUrl, trustedCert, clientCert, clientKey, kafkaGroup, kafkaPrefix).buildConsumerDefaults());
     }
 
     public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {

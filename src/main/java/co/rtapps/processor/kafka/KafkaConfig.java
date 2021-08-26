@@ -24,13 +24,18 @@ public class KafkaConfig {
 	private final String trustedCert;
 	private final String clientKey;
 	private final String group;
+	private final String prefix;
 
-	public KafkaConfig(String kafkaUrl, String trustedCert, String clientCert, String clientKey, String group) {
+	public KafkaConfig(String kafkaUrl, String trustedCert, String clientCert, String clientKey, String group, String prefix) {
 		this.kafkaUrl = kafkaUrl;
 		this.trustedCert = trustedCert;
 		this.clientCert = clientCert;
 		this.clientKey = clientKey;
-		this.group = group;
+		this.prefix = prefix;
+		if (prefix != null)
+			this.group = prefix + "." + group;
+		else
+			this.group = group;
 	}
 
 	public Map<String, Object> buildConsumerDefaults() {
@@ -101,6 +106,10 @@ public class KafkaConfig {
 				throw new RuntimeException(e);
 			}
 		}
+	}
+
+	public String getPrefix() {
+		return prefix;
 	}
 
 }
