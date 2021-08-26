@@ -53,11 +53,11 @@ public class KafkaConfig {
 		properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 		properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 		
-		if (!this.group.equals(""))
+		if (!this.group.equals("")) {
 			properties.put(ConsumerConfig.GROUP_ID_CONFIG, getGroup());
-		
-		properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
-		properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+			properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
+			properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+		}
 
 		return properties;
 	}
