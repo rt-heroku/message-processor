@@ -20,11 +20,12 @@ public class KafkaConsumer {
 
     @KafkaListener(topics = TOPIC)
     public void receive(ConsumerRecord<String, String> consumerRecord) {
-       // log.info("Received payload: '{}'", consumerRecord.toString());
         messages.add(consumerRecord.value());
         
-        if (messages.size() % 100 == 0)
+        if (messages.size() % 100 == 0) {
+        	log.info("Received payload: '{}'", consumerRecord.toString());
         	log.info("Number of messages processed: " + messages.size());
+        }
     }
 //    @KafkaListener(topics = TOPIC)
 //    public void receive(MData consumerRecord) {
