@@ -21,6 +21,9 @@ public class KafkaConsumer {
     @KafkaListener(topics = TOPIC)
     public void receive(ConsumerRecord<String, String> consumerRecord) {
         messages.add(consumerRecord.value());
+
+        if (System.getenv("DEBUG_ALL_RECORDS") == "TRUE")
+        	log.info("Received payload: '{}'", consumerRecord.toString());
         
         if (messages.size() % 100 == 0) {
         	log.info("Received payload: '{}'", consumerRecord.toString());
