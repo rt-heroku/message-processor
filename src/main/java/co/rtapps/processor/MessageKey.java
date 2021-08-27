@@ -1,11 +1,14 @@
 package co.rtapps.processor;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Data;
 
 @Data
 public class MessageKey {
     private String database;
     private String table;
+    @JsonProperty("pk.id")
     private String pkid;
    
     @Override

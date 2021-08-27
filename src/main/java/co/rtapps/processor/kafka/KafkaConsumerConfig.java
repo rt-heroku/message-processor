@@ -8,7 +8,7 @@ import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
-import co.rtapps.processor.MessageData;
+import co.rtapps.processor.MessagePayload;
 import co.rtapps.processor.MessageKey;
 
 @EnableKafka
@@ -23,17 +23,17 @@ public class KafkaConsumerConfig {
 //    }
 
     @Bean
-    public ConsumerFactory<MessageKey, MessageData> consumerFactory() {
+    public ConsumerFactory<MessageKey, MessagePayload> consumerFactory() {
     	return new DefaultKafkaConsumerFactory<>(
     			new KafkaConfig().buildConsumerDefaults(), 
     			new JsonDeserializer<>(MessageKey.class), 
-    			new JsonDeserializer<>(MessageData.class)
+    			new JsonDeserializer<>(MessagePayload.class)
     			);
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<MessageKey, MessageData> kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<MessageKey, MessageData> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    public ConcurrentKafkaListenerContainerFactory<MessageKey, MessagePayload> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<MessageKey, MessagePayload> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
 
         return factory;
