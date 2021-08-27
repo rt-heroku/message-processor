@@ -7,7 +7,8 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
-import co.rtapps.processor.MData;
+import co.rtapps.processor.MessageData;
+import co.rtapps.processor.MessageKey;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -18,8 +19,8 @@ public class KafkaConsumer {
 
     public final List<String> messages = new ArrayList<>();
 
-    @KafkaListener(topics = TOPIC)
-    public void receive(ConsumerRecord<String, String> consumerRecord) {
+    //@KafkaListener(topics = TOPIC)
+    public void receiveString(ConsumerRecord<String, String> consumerRecord) {
         messages.add(consumerRecord.value());
 
         String env = System.getenv("DEBUG_ALL_RECORDS");
@@ -32,10 +33,11 @@ public class KafkaConsumer {
         	log.info("Number of messages processed: " + messages.size());
         }
     }
-//    @KafkaListener(topics = TOPIC)
-//    public void receive(MData consumerRecord) {
-//    	log.info("Received payload: '{}'", consumerRecord.toString());
-//    	messages.add(consumerRecord);
-//    }
+
+    @KafkaListener(topics = TOPIC)
+    public void receive(MessageKey mkey, MessageData mdata) {
+    	log.info("Received payload: '{}'", mdata.toString());
+    	messages.add(mdata.toString());
+    }
 
 }
