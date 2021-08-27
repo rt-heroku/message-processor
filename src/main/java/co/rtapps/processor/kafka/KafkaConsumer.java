@@ -22,7 +22,9 @@ public class KafkaConsumer {
     public void receive(ConsumerRecord<String, String> consumerRecord) {
         messages.add(consumerRecord.value());
 
-        if (System.getenv("DEBUG_ALL_RECORDS") == "TRUE")
+        String env = System.getenv("DEBUG_ALL_RECORDS");
+        
+        if (env !=null && env.equals("TRUE"))
         	log.info("Received payload: '{}'", consumerRecord.toString());
         
         if (messages.size() % 100 == 0) {
