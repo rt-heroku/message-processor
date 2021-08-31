@@ -34,16 +34,14 @@ public class KafkaConsumer {
 
     @KafkaListener(topics = "tombigbee-4880.101", clientIdPrefix = "string",
             containerFactory = "kafkaListenerStringContainerFactory")
-    public void receiveString(ConsumerRecord<MessageKey, MessagePayload> consumerRecord) {
-        log.info("LISTENER1 - Action:" + consumerRecord.value().getType());
-    	log.info("LISTENER1 - Received key: '{}' Payload:'{}'", consumerRecord.key().toString(), consumerRecord.value().toString());
+    public void receiveString(ConsumerRecord<String, String> consumerRecord) {
+    	log.info("LISTENER1 - Received key: '{}' Payload:'{}'", consumerRecord.key(), consumerRecord.value());
     }
 
     @KafkaListener(topics = "tombigbee-4880.101", clientIdPrefix = "string",
             containerFactory = "kafkaListenerStringContainerFactory")
-    public void receiveAnotherString(ConsumerRecord<MessageKey, MessagePayload> consumerRecord) {
-    	log.info("LISTENER2 - Action:" + consumerRecord.value().getType());
-		log.info("LISTENER2 - Received key: '{}' Payload:'{}'", consumerRecord.key().toString(), consumerRecord.value().toString());
+    public void receiveAnotherString(ConsumerRecord<String, String> consumerRecord) {
+		log.info("LISTENER2 - Received key: '{}' Payload:'{}'", consumerRecord.key(), consumerRecord.value());
     }
 
     @KafkaListener(topics = "tombigbee-4880.part-data", clientIdPrefix = "json",
