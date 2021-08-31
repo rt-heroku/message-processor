@@ -32,13 +32,15 @@ public class KafkaConsumer {
     public final List<String> messages = new ArrayList<>();
     public final List<String> failedMessages = new ArrayList<>();
 
-    @KafkaListener(topics = "tombigbee-4880.101")
+    @KafkaListener(topics = "tombigbee-4880.101", clientIdPrefix = "string",
+            containerFactory = "kafkaListenerStringContainerFactory")
     public void receiveString(ConsumerRecord<MessageKey, MessagePayload> consumerRecord) {
         log.info("LISTENER1 - Action:" + consumerRecord.value().getType());
     	log.info("LISTENER1 - Received key: '{}' Payload:'{}'", consumerRecord.key().toString(), consumerRecord.value().toString());
     }
 
-    @KafkaListener(topics = "tombigbee-4880.101")
+    @KafkaListener(topics = "tombigbee-4880.101", clientIdPrefix = "string",
+            containerFactory = "kafkaListenerStringContainerFactory")
     public void receiveAnotherString(ConsumerRecord<MessageKey, MessagePayload> consumerRecord) {
     	log.info("LISTENER2 - Action:" + consumerRecord.value().getType());
 		log.info("LISTENER2 - Received key: '{}' Payload:'{}'", consumerRecord.key().toString(), consumerRecord.value().toString());

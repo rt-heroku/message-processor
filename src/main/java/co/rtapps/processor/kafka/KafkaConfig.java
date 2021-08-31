@@ -39,16 +39,17 @@ public class KafkaConfig {
 	}
 
 	public Map<String, Object> buildConsumerDefaults() {
+		return buildConsumerDefaultsForGroup(getGroup());
+	}
+
+	public Map<String, Object> buildConsumerDefaultsForGroup(String group) {
 		Map<String, Object> properties = new HashMap<>();
 		List<String> hostPorts = new ArrayList<>();
-
-		buildDefaults(properties, hostPorts);
-
-		System.out.println("buildConsumerDefaults -> Group: " + getGroup());
-		System.out.println("buildConsumerDefaults -> Prefix: " + prefix);
-
-
 		
+		buildDefaults(properties, hostPorts);
+		
+		System.out.println("buildConsumerDefaults -> Group: " + group);
+		System.out.println("buildConsumerDefaults -> Prefix: " + prefix);
 		
 		properties.put(CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG,
 				hostPorts.stream().collect(Collectors.joining(",")));
@@ -56,12 +57,12 @@ public class KafkaConfig {
 		properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 		properties.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class);
 		
-		if (!this.group.equals("")) {
-			properties.put(ConsumerConfig.GROUP_ID_CONFIG, getGroup());
+		if (!group.equals("")) {
+			properties.put(ConsumerConfig.GROUP_ID_CONFIG, group);
 			properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
 			properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 		}
-
+		
 		return properties;
 	}
 

@@ -15,12 +15,12 @@ import co.rtapps.processor.message.MessagePayload;
 @Configuration
 public class KafkaConsumerConfig {
 
-//    @Bean
-//    public ConsumerFactory<String, String> consumerFactory() {
-//        return new DefaultKafkaConsumerFactory<>(
-//        		new KafkaConfig().buildConsumerDefaults()
-//        		);
-//    }
+    @Bean
+    public ConsumerFactory<String, String> consumerStringFactory() {
+        return new DefaultKafkaConsumerFactory<>(
+        		new KafkaConfig().buildConsumerDefaults()
+        		);
+    }
 
     @Bean
     public ConsumerFactory<MessageKey, MessagePayload> consumerFactory() {
@@ -39,12 +39,12 @@ public class KafkaConsumerConfig {
         return factory;
     }
 
-//    @Bean
-//    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
-//    	ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
-//    	factory.setConsumerFactory(consumerFactory());
-//    	
-//    	return factory;
-//    }
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerStringContainerFactory() {
+    	ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    	factory.setConsumerFactory(consumerStringFactory());
+    	
+    	return factory;
+    }
 
 }
