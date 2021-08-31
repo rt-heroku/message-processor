@@ -34,19 +34,14 @@ public class KafkaConsumer {
 
     @KafkaListener(topics = "tombigbee-4880.101")
     public void receiveString(ConsumerRecord<MessageKey, MessagePayload> consumerRecord) {
-        messages.add(consumerRecord.value().toString());
+        log.info("LISTENER1 - Action:" + consumerRecord.value().getType());
+    	log.info("LISTENER1 - Received key: '{}' Payload:'{}'", consumerRecord.key().toString(), consumerRecord.value().toString());
+    }
 
-        String env = System.getenv("DEBUG_ALL_RECORDS");
-        
-        log.info("Action:" + consumerRecord.value().getType());
-        
-        if (env !=null && env.equals("TRUE"))
-        	log.info("Received key: '{}' Payload:'{}'", consumerRecord.key().toString(), consumerRecord.value().toString());
-        
-        if (messages.size() % 100 == 0) {
-        	log.info("Received payload: '{}'", consumerRecord.key().toString());
-        	log.info("Number of messages processed: " + messages.size());
-        }
+    @KafkaListener(topics = "tombigbee-4880.101")
+    public void receiveAnotherString(ConsumerRecord<MessageKey, MessagePayload> consumerRecord) {
+    	log.info("LISTENER2 - Action:" + consumerRecord.value().getType());
+		log.info("LISTENER2 - Received key: '{}' Payload:'{}'", consumerRecord.key().toString(), consumerRecord.value().toString());
     }
 
     @KafkaListener(topics = "tombigbee-4880.part-data")
