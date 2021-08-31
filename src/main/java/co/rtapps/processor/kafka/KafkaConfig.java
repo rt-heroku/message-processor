@@ -37,6 +37,11 @@ public class KafkaConfig {
 		else
 			this.group = prefix + getenv("KAFKA_GROUP");
 	}
+	public KafkaConfig(String config) {
+		this.prefix = checkNotNull(getenv("KAFKA_PREFIX"));
+		
+		this.group = config;
+	}
 
 	public Map<String, Object> buildConsumerDefaults() {
 		return buildConsumerDefaultsForGroup(getGroup());

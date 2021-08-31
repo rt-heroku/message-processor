@@ -18,14 +18,14 @@ public class KafkaConsumerConfig {
     @Bean
     public ConsumerFactory<String, String> consumerStringFactory() {
         return new DefaultKafkaConsumerFactory<>(
-        		new KafkaConfig().buildConsumerDefaults()
+        		new KafkaConfig().buildConsumerDefaultsForGroup("listener2")
         		);
     }
 
     @Bean
     public ConsumerFactory<MessageKey, MessagePayload> consumerFactory() {
     	return new DefaultKafkaConsumerFactory<>(
-    			new KafkaConfig().buildConsumerDefaults(), 
+    			new KafkaConfig().buildConsumerDefaultsForGroup("test"), 
     			new JsonDeserializer<>(MessageKey.class), 
     			new JsonDeserializer<>(MessagePayload.class)
     			);
