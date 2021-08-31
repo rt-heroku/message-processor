@@ -46,7 +46,8 @@ public class KafkaConsumer {
 		log.info("LISTENER2 - Received key: '{}' Payload:'{}'", consumerRecord.key().toString(), consumerRecord.value().toString());
     }
 
-    @KafkaListener(topics = "tombigbee-4880.part-data")
+    @KafkaListener(topics = "tombigbee-4880.part-data", clientIdPrefix = "json",
+            containerFactory = "kafkaListenerContainerFactory")
     public void receive(ConsumerRecord<MessageKey , MessagePayload> payload) {
     	
     	if (payload.value().getType().equals("insert")) {
