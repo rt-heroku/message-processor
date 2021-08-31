@@ -40,7 +40,7 @@ public class KafkaConfig {
 	public KafkaConfig(String config) {
 		this.prefix = checkNotNull(getenv("KAFKA_PREFIX"));
 		
-		this.group = config;
+		this.group = this.prefix + config;
 	}
 
 	public Map<String, Object> buildConsumerDefaults() {
