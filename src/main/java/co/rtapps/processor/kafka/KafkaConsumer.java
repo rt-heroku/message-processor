@@ -34,16 +34,16 @@ public class KafkaConsumer {
     public final List<String> failedMessages = new ArrayList<>();
 
     @KafkaListener(topics = TOPIC)
-    public void receiveString(ConsumerRecord<String, String> consumerRecord) {
-        messages.add(consumerRecord.value());
+    public void receiveString(ConsumerRecord<MessageKey, MessagePayload> consumerRecord) {
+        messages.add(consumerRecord.value().toString());
 
         String env = System.getenv("DEBUG_ALL_RECORDS");
         
         if (env !=null && env.equals("TRUE"))
-        	log.info("Received payload: '{}'", consumerRecord.toString());
+        	log.info("Received payload: '{}'", consumerRecord.key().toString());
         
         if (messages.size() % 100 == 0) {
-        	log.info("Received payload: '{}'", consumerRecord.toString());
+        	log.info("Received payload: '{}'", consumerRecord.key().toString());
         	log.info("Number of messages processed: " + messages.size());
         }
     }
