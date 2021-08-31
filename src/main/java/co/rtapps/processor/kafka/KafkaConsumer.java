@@ -44,6 +44,12 @@ public class KafkaConsumer {
 		log.info("LISTENER2 - Received key: '{}' Payload:'{}'", consumerRecord.key(), consumerRecord.value());
     }
 
+    @KafkaListener(topics = "tombigbee-4880.ddl", clientIdPrefix = "string",
+            containerFactory = "kafkaListenerStringContainerFactory")
+    public void receiveDDL(ConsumerRecord<String, String> consumerRecord) {
+		log.info("DDL Actions - key: '{}' Payload:'{}'", consumerRecord.key(), consumerRecord.value());
+    }
+
     @KafkaListener(topics = "tombigbee-4880.part-data", clientIdPrefix = "json",
             containerFactory = "kafkaListenerContainerFactory")
     public void receive(ConsumerRecord<MessageKey , MessagePayload> payload) {

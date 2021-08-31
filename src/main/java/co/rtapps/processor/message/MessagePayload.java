@@ -29,17 +29,30 @@ key = {"database":"av3","table":"testsamples","pk.id":1790036}, value = {"databa
     private Long xoffset;
     
     private Map<String, Object> data;
+    private Map<String, Object> old;
 
     @JsonIgnore
     private List<MessageData> mdata;
     
+    @JsonIgnore
+    private List<MessageData> mold;
+
     public void setData(Map<String, Object> data) {
     	this.data = data;
     	mdata = MessageUtils.mapToListOfMessageData(data);
     }
     
+    public void setOld(Map<String, Object> old) {
+    	this.old = old;
+    	mold = MessageUtils.mapToListOfMessageData(old);
+    }
+    
     public List<MessageData> getMessageData(){
     	return MessageUtils.mapToListOfMessageData(data);
+    }
+    
+    public List<MessageData> getOldData(){
+    	return MessageUtils.mapToListOfMessageData(old);
     }
     
     @Override
@@ -47,18 +60,20 @@ key = {"database":"av3","table":"testsamples","pk.id":1790036}, value = {"databa
     	StringBuilder sb = new StringBuilder();
     	
     	sb.append("database:").append(database)
-    	.append(", table:").append(table)
-    	.append(", type:").append(type)
-    	.append(", serverId:").append(serverId)
-    	.append(", ts:").append(ts)
-    	.append(", xid:").append(xid)
-    	.append(", xoffset:").append(xoffset)
-    	.append(", commit:").append(commit)
-    	.append(", data: [")
-    	.append(MessageUtils.printMap(data))
-    	.append("]")
+	    	.append(", table:").append(table)
+	    	.append(", type:").append(type)
+	    	.append(", serverId:").append(serverId)
+	    	.append(", ts:").append(ts)
+	    	.append(", xid:").append(xid)
+	    	.append(", xoffset:").append(xoffset)
+	    	.append(", commit:").append(commit)
+	    	.append(", data: [")
+	    	.append(MessageUtils.printMap(data))
+	    	.append("]")
+	    	.append(", old: [")
+	    	.append(MessageUtils.printMap(old))
+	    	.append("]")
     	;
-    	
     	
     	return sb.toString();
     }

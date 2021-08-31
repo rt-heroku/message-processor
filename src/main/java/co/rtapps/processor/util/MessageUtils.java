@@ -12,8 +12,12 @@ public class MessageUtils {
 	
 	public static String printMap (Map<String,Object> map) {
 		
+		if (map == null) 
+			return "";
+		
 		String t = "";
 		String name = "";
+		
 		for (String k : map.keySet()) {
 			Object value = map.get(k);
 			if (value != null)
