@@ -28,19 +28,20 @@ public class KafkaConsumer {
 	@Autowired
 	Analyzer analyzer;
 	
-    public static final String TOPIC = "tombigbee-4880.part-data";
 
     public final List<String> messages = new ArrayList<>();
     public final List<String> failedMessages = new ArrayList<>();
 
-    @KafkaListener(topics = TOPIC)
+    @KafkaListener(topics = "tombigbee-4880.101")
     public void receiveString(ConsumerRecord<MessageKey, MessagePayload> consumerRecord) {
         messages.add(consumerRecord.value().toString());
 
         String env = System.getenv("DEBUG_ALL_RECORDS");
         
+        log.info("Action:" + consumerRecord.value().getType());
+        
         if (env !=null && env.equals("TRUE"))
-        	log.info("Received payload: '{}'", consumerRecord.key().toString());
+        	log.info("Received key: '{}' Payload:'{}'", consumerRecord.key().toString(), consumerRecord.value().toString());
         
         if (messages.size() % 100 == 0) {
         	log.info("Received payload: '{}'", consumerRecord.key().toString());
@@ -48,7 +49,7 @@ public class KafkaConsumer {
         }
     }
 
-    //@KafkaListener(topics = TOPIC)
+    @KafkaListener(topics = "tombigbee-4880.part-data")
     public void receive(ConsumerRecord<MessageKey , MessagePayload> payload) {
     	
     	if (payload.value().getType().equals("insert")) {
