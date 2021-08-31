@@ -10,9 +10,10 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
-import co.rtapps.processor.MessageData;
-import co.rtapps.processor.MessageKey;
-import co.rtapps.processor.MessagePayload;
+import co.rtapps.processor.db.Analyzer;
+import co.rtapps.processor.message.MessageData;
+import co.rtapps.processor.message.MessageKey;
+import co.rtapps.processor.message.MessagePayload;
 import co.rtapps.processor.repositories.GenericTableRepository;
 import co.rtapps.processor.util.MessageUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -24,12 +25,15 @@ public class KafkaConsumer {
 	@Autowired
 	GenericTableRepository genericTableRepository;
 	
-    public static final String TOPIC = "tombigbee-4880.101";
+	@Autowired
+	Analyzer analyzer;
+	
+    public static final String TOPIC = "tombigbee-4880.part-data";
 
     public final List<String> messages = new ArrayList<>();
     public final List<String> failedMessages = new ArrayList<>();
 
-    //@KafkaListener(topics = TOPIC)
+    @KafkaListener(topics = TOPIC)
     public void receiveString(ConsumerRecord<String, String> consumerRecord) {
         messages.add(consumerRecord.value());
 
@@ -44,8 +48,9 @@ public class KafkaConsumer {
         }
     }
 
-    @KafkaListener(topics = TOPIC)
+    //@KafkaListener(topics = TOPIC)
     public void receive(ConsumerRecord<MessageKey , MessagePayload> payload) {
+    	
     	if (payload.value().getType().equals("insert")) {
 	    	String sql = getInsertStatement(payload.value());
 	

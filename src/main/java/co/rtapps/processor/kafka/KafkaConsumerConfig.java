@@ -8,8 +8,8 @@ import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
-import co.rtapps.processor.MessagePayload;
-import co.rtapps.processor.MessageKey;
+import co.rtapps.processor.message.MessageKey;
+import co.rtapps.processor.message.MessagePayload;
 
 @EnableKafka
 @Configuration

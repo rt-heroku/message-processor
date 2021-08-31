@@ -26,4 +26,10 @@ public class GenericTableRepository {
 //        return (long) keyHolder.getKey();
     }
 	
+    public void execute(final String sql) {
+    	
+    	jdbcTemplate.execute(sql);
+    	
+    }
+    
 }

@@ -1,4 +1,4 @@
-package co.rtapps.processor;
+package co.rtapps.processor.message;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

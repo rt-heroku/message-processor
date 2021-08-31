@@ -1,4 +1,4 @@
-package co.rtapps.processor;
+package co.rtapps.processor.message;
 
 import java.util.List;
 import java.util.Map;

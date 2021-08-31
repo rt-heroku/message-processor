@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import co.rtapps.processor.MessageData;
+import co.rtapps.processor.message.MessageData;
 
 public class MessageUtils {
 
