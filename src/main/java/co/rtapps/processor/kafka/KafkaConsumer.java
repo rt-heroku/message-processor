@@ -32,13 +32,13 @@ public class KafkaConsumer {
     public final List<String> messages = new ArrayList<>();
     public final List<String> failedMessages = new ArrayList<>();
 
-    @KafkaListener(topics = "tombigbee-4880.101", clientIdPrefix = "string-101",
+    @KafkaListener(topics = "tombigbee-4880.101",
             containerFactory = "kafkaListenerStringContainerFactory")
     public void receiveString(ConsumerRecord<String, String> consumerRecord) {
     	log.info("LISTENER1 - Received key: '{}' Payload:'{}'", consumerRecord.key(), consumerRecord.value());
     }
 
-    @KafkaListener(topics = "tombigbee-4880.ddl", clientIdPrefix = "string-ddl",
+    @KafkaListener(topics = "tombigbee-4880.ddl",
             containerFactory = "kafkaListenerStringContainerFactory")
     public void receiveDDL(ConsumerRecord<String, String> consumerRecord) {
 		log.info("DDL Actions - key: '{}' Payload:'{}'", consumerRecord.key(), consumerRecord.value());
@@ -50,7 +50,7 @@ public class KafkaConsumer {
 //		log.info("LISTENER2 - Received key: '{}' Payload:'{}'", consumerRecord.key(), consumerRecord.value());
 //    }
 
-    @KafkaListener(topics = "tombigbee-4880.part-data", clientIdPrefix = "json-part-data",
+    @KafkaListener(topics = "tombigbee-4880.part-data",
             containerFactory = "kafkaListenerContainerFactory")
     public void receive(ConsumerRecord<MessageKey , MessagePayload> payload) {
     	
